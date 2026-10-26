@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#fff4f8"><title>Little Moments Photo Booth</title>
+<style>
+:root{--pink:#f39aba;--ink:#563c4b;--line:#f1d5e0;--paper:#fff7fa}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#fff2f7,#fffaf2,#f5f0ff);color:var(--ink);font-family:system-ui,-apple-system,sans-serif}.wrap{max-width:900px;margin:auto;padding:22px 15px 35px}.brand{text-align:center;font-size:13px;letter-spacing:2px;color:#b56f8b}.hero{text-align:center;margin:12px 0 24px}.hero h1{font-size:clamp(30px,6vw,46px);letter-spacing:-1.5px;line-height:1.1;margin:8px}.hero h1 span{color:var(--pink)}.hero p{color:#967d8c;font-size:14px}.layout{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}.card{background:#ffffffd9;border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:0 8px 28px #cda5b31c}.card h2{font-size:15px;margin:0 0 14px}.preview-area{display:grid;place-items:center;min-height:330px;background:#fff8fb;border-radius:16px;padding:14px}.print{width:min(100%,220px);aspect-ratio:2/5;background:#fff5f8;border:9px solid #fff;outline:1px solid var(--pink);box-shadow:0 8px 22px #b9829c30;padding:8px;display:flex;flex-direction:column;gap:7px;position:relative}.print.square{aspect-ratio:1}.print.postcard{aspect-ratio:4/3;width:min(100%,330px)}.print.hearts{background:#fff5f8;outline:2px solid #ff9fbd}.print.lilac{background:#faf6ff;outline-color:#bba7ef}.print.mint{background:#f4fff9;outline-color:#9ad8c1}.print.film{background:#f4f0eb;outline-color:#777}.decor{text-align:center;color:var(--pink);font-size:19px;line-height:1}.print.lilac .decor{color:#a48ce3}.print.mint .decor{color:#65ad90}.grid{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:repeat(4,minmax(0,1fr));gap:6px}.print.square .grid,.print.postcard .grid{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}.slot{min-height:0;background:linear-gradient(135deg,#ffe6ef,#eee7ff);display:grid;place-items:center;overflow:hidden;color:#c38ca5;font-size:12px}.slot img{width:100%;height:100%;object-fit:cover}.caption{text-align:center;font-size:11px;letter-spacing:1px;color:#c16f92;overflow-wrap:anywhere}.caption small{display:block;font-size:8px;color:#b59aa8;margin-top:3px;letter-spacing:1.5px}.field{margin-bottom:15px}.field label{display:block;font-size:12px;color:#967d8c;margin-bottom:8px}.options{display:flex;flex-wrap:wrap;gap:7px}.opt,button{border:1px solid var(--line);background:white;color:var(--ink);border-radius:999px;padding:9px 12px;font-size:12px}.opt.active{border-color:var(--pink);background:#fff0f5;color:#b54f78}.upload{display:block;width:100%;border:1px dashed #e4a7bf;background:#fff7fa;border-radius:13px;padding:13px;text-align:center;color:#a8587b;font-weight:700;font-size:13px}.upload input{display:none}.text{width:100%;border:1px solid var(--line);border-radius:12px;padding:11px;background:white;color:var(--ink);font:inherit;font-size:14px}.actions{display:flex;gap:8px}.actions button{flex:1;padding:12px}.primary{background:var(--pink);color:white;border-color:var(--pink);font-weight:700}.note{font-size:11px;color:#a18c99;line-height:1.5}.status{text-align:center;color:#a8587b;font-size:12px;min-height:18px;margin-top:10px}footer{text-align:center;color:#b69eac;font-size:11px;margin-top:24px}
+@media(max-width:680px){.wrap{padding:17px 12px}.layout{grid-template-columns:1fr}.hero{margin-bottom:18px}.preview-area{min-height:280px}.card{padding:14px}}
+</style></head>
+<body><main class="wrap">
+<div class="brand">🎀 LITTLE MOMENTS</div>
+<header class="hero"><h1>Your memories,<br><span>your cute little frame.</span></h1><p>Pick a frame, add your photos, save your photo strip ♡</p></header>
+<div class="layout">
+<section class="card"><h2>♡ Preview</h2><div class="preview-area"><div class="print" id="print"><div class="decor" id="decor">୨୧</div><div class="grid" id="grid"></div><div class="caption"><span id="captionOut">little moments ♡</span><small id="dateOut">A DAY TO REMEMBER</small></div></div></div></section>
+<section class="card"><h2>✿ Customize</h2>
+<div class="field"><label>Photo size</label><div class="options" id="sizes"><button class="opt active" data-size="strip">Photo strip</button><button class="opt" data-size="postcard">Postcard</button><button class="opt" data-size="square">Square</button></div></div>
+<div class="field"><label>Cute frame</label><div class="options" id="frames"><button class="opt active" data-frame="bow">🎀 Bow</button><button class="opt" data-frame="hearts">♡ Hearts</button><button class="opt" data-frame="lilac">✿ Lilac</button><button class="opt" data-frame="mint">🌿 Mint</button><button class="opt" data-frame="film">▤ Film</button></div></div>
+<div class="field"><label class="upload">＋ Add photos (up to 4)<input id="files" type="file" accept="image/*" multiple></label></div>
+<div class="field"><label for="caption">Caption</label><input class="text" id="caption" maxlength="32" value="little moments ♡"></div>
+<div class="field"><label for="date">Tiny subtitle</label><input class="text" id="date" maxlength="28" value="A DAY TO REMEMBER"></div>
+<div class="actions"><button id="clear">Clear photos</button><button class="primary" id="save">↓ Save image</button></div>
+<p class="note">Your photos stay in your browser. The save button downloads your finished frame as a PNG.</p><div class="status" id="status"></div>
+</section></div><footer>made with ♡ for your little memories</footer></main>
+<script>
+(function(){
+var photos=[],size='strip',frame='bow',byId=function(id){return document.getElementById(id)};
+var config={strip:{w:600,h:1500,label:'Photo strip'},postcard:{w:1200,h:900,label:'Postcard'},square:{w:1200,h:1200,label:'Square'}};
+var styles={bow:{bg:'#fff5f8',line:'#f4a0bf',accent:'#d66f95',decor:'୨୧'},hearts:{bg:'#fff6f8',line:'#ff8db1',accent:'#db6e91',decor:'♡  ♡  ♡'},lilac:{bg:'#faf7ff',line:'#b9a8f4',accent:'#9780d9',decor:'✿  ✧  ✿'},mint:{bg:'#f5fff9',line:'#95d8bf',accent:'#61ac91',decor:'✿  ♡  ✿'},film:{bg:'#f4f0eb',line:'#777078',accent:'#696168',decor:'▤  ▤  ▤'}};
+function tell(s){byId('status').textContent=s}
+function render(){
+var p=byId('print'),cfg=config[size],st=styles[frame];p.className='print '+(size==='strip'?'':size)+' '+frame;p.style.background=st.bg;p.style.outlineColor=st.line;byId('decor').textContent=st.decor;byId('decor').style.color=st.accent;
+var g=byId('grid');g.innerHTML='';
+for(var i=0;i<4;i++){var slot=document.createElement('div');slot.className='slot';if(photos[i]){var im=document.createElement('img');im.src=photos[i];slot.appendChild(im)}else{slot.textContent=['♡','✿','✧','🎀'][i]+' photo '+(i+1)}g.appendChild(slot)}
+byId('captionOut').textContent=byId('caption').value||'little moments ♡';byId('dateOut').textContent=(byId('date').value||'').toUpperCase();
+document.querySelectorAll('[data-size]').forEach(function(b){b.classList.toggle('active',b.dataset.size===size)});document.querySelectorAll('[data-frame]').forEach(function(b){b.classList.toggle('active',b.dataset.frame===frame)});
+}
+byId('files').addEventListener('change',function(e){var fs=Array.from(e.target.files||[]).filter(function(f){return f.type.indexOf('image/')===0});fs.slice(0,4-photos.length).forEach(function(f){photos.push(URL.createObjectURL(f))});render();tell(photos.length+' photo(s) ready ♡');e.target.value=''});
+document.querySelectorAll('[data-size]').forEach(function(b){b.addEventListener('click',function(){size=b.dataset.size;render()})});
+document.querySelectorAll('[data-frame]').forEach(function(b){b.addEventListener('click',function(){frame=b.dataset.frame;render()})});
+['caption','date'].forEach(function(id){byId(id).addEventListener('input',render)});
+byId('clear').addEventListener('click',function(){photos.forEach(URL.revokeObjectURL);photos=[];render();tell('Cleared! Add new photos anytime.')});
+function image(url){return new Promise(function(resolve,reject){var im=new Image();im.onload=function(){resolve(im)};im.onerror=reject;im.src=url})}
+function drawFit(ctx,im,x,y,w,h){var scale=Math.max(w/im.width,h/im.height),sw=w/scale,sh=h/scale;ctx.drawImage(im,(im.width-sw)/2,(im.height-sh)/2,sw,sh,x,y,w,h)}
+byId('save').addEventListener('click',async function(){
+var btn=byId('save');btn.disabled=true;btn.textContent='Making your print…';
+try{
+var cfg=config[size],st=styles[frame],c=document.createElement('canvas');c.width=cfg.w;c.height=cfg.h;var ctx=c.getContext('2d');
+ctx.fillStyle=st.bg;ctx.fillRect(0,0,c.width,c.height);ctx.strokeStyle=st.line;ctx.lineWidth=8;ctx.strokeRect(16,16,c.width-32,c.height-32);
+var pad=size==='strip'?38:52,top=105,bottom=135,gap=20,cols=size==='strip'?1:2,rows=2,cw=(c.width-pad*2-gap*(cols-1))/cols,ch=(c.height-top-bottom-pad-gap*(rows-1))/rows;
+for(var i=0;i<4;i++){var x=pad+(i%cols)*(cw+gap),y=top+Math.floor(i/cols)*(ch+gap);ctx.fillStyle='#fff';ctx.fillRect(x-5,y-5,cw+10,ch+10);if(photos[i]){var im=await image(photos[i]);ctx.save();ctx.beginPath();ctx.rect(x,y,cw,ch);ctx.clip();drawFit(ctx,im,x,y,cw,ch);ctx.restore()}else{ctx.fillStyle='#f8e6ee';ctx.fillRect(x,y,cw,ch);ctx.fillStyle=st.accent;ctx.textAlign='center';ctx.font='60px sans-serif';ctx.fillText(['♡','✿','✧','🎀'][i],x+cw/2,y+ch/2)}}
+ctx.textAlign='center';ctx.fillStyle=st.accent;ctx.font='600 38px system-ui';ctx.fillText((byId('caption').value||'little moments ♡').slice(0,32),c.width/2,c.height-bottom+35,c.width-pad*2);ctx.fillStyle='#b59aa8';ctx.font='20px system-ui';ctx.fillText((byId('date').value||'').toUpperCase().slice(0,28),c.width/2,c.height-35,c.width-pad*2);
+var a=document.createElement('a');a.download='little-moments-'+size+'.png';a.href=c.toDataURL('image/png');a.click();tell('Saved! Your cute photo print is ready ♡');
+}catch(e){tell('Could not create the image. Try fewer or smaller photos.')}finally{btn.disabled=false;btn.textContent='↓ Save image'}
+});
+render();
+})();
+</script></body></html>
