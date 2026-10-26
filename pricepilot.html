@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0e13"><title>NEXTA LAB · Price Calculator</title>
+<style>
+:root{--bg:#0b0e13;--panel:#141a22;--line:#26313d;--cyan:#35b3f2;--pale:#8ed8ff;--text:#f4f8fb;--muted:#94a3b1;--good:#68e0b2;--bad:#ff8b8b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+main{max-width:620px;margin:auto;padding:24px 16px 40px}.brand{display:flex;align-items:center;gap:12px;margin-bottom:24px}.logo{width:48px;height:48px;border:2px solid var(--cyan);border-radius:15px;display:grid;place-items:center;color:var(--pale);font-weight:900;font-size:20px;letter-spacing:-2px}.brand h1{font-size:18px;letter-spacing:2px;margin:0}.brand p{margin:4px 0 0;color:var(--cyan);font-size:11px;letter-spacing:2px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:18px;margin-bottom:14px}.card h2{font-size:15px;margin:0 0 16px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}label{font-size:12px;color:var(--muted)}input{width:100%;background:#0c1118;border:1px solid var(--line);border-radius:11px;padding:13px;color:var(--text);font-size:16px;outline:none;min-width:0}input:focus{border-color:var(--cyan)}.results{display:grid;grid-template-columns:1fr 1fr;gap:10px}.metric{background:#0c1118;border:1px solid var(--line);border-radius:14px;padding:14px}.metric span{display:block;color:var(--muted);font-size:12px;margin-bottom:8px}.metric strong{font-size:23px;letter-spacing:-.5px;overflow-wrap:anywhere}.metric.primary{border-color:#2379a5;background:#102431}.metric.primary strong{color:var(--pale)}.metric small{display:block;color:var(--muted);font-size:11px;margin-top:5px}.suggest{display:flex;justify-content:space-between;gap:12px;align-items:center}.suggest strong{font-size:22px;color:var(--pale)}.muted{color:var(--muted);font-size:12px;line-height:1.5}.btn{border:0;background:var(--cyan);color:#061018;font-weight:800;border-radius:12px;padding:13px 16px;width:100%;font-size:15px;margin-top:12px}.foot{text-align:center;color:#617181;font-size:11px;margin-top:22px}@media(max-width:360px){.fields{grid-template-columns:1fr}.field.full{grid-column:auto}.metric strong{font-size:20px}}
+</style>
+</head>
+<body><main>
+<header class="brand"><div class="logo">NxT</div><div><h1>NEXTA LAB</h1><p>PRICE CALCULATOR</p></div></header>
+<section class="card"><h2>1. Your costs</h2><div class="fields">
+<div class="field"><label for="cost">Product cost (RMB ¥)</label><input id="cost" type="number" min="0" step="0.01" value="30"></div>
+<div class="field"><label for="china">China shipping (RMB ¥)</label><input id="china" type="number" min="0" step="0.01" value="18"></div>
+<div class="field"><label for="weight">International shipping weight (g)</label><input id="weight" type="number" min="0" step="1" value="300"></div>
+<div class="field"><label for="rate">Shipping price (USD/kg)</label><input id="rate" type="number" min="0" step="0.01" value="3.5"></div>
+<div class="field"><label for="fx">RMB per USD</label><input id="fx" type="number" min="0.01" step="0.01" value="7.1"></div>
+<div class="field"><label for="pack">Packaging & other (USD)</label><input id="pack" type="number" min="0" step="0.01" value="0.25"></div>
+</div></section>
+<section class="card"><h2>2. Selling price</h2><div class="fields">
+<div class="field"><label for="price">Selling price (USD $)</label><input id="price" type="number" min="0" step="0.01" value="9.99"></div>
+<div class="field"><label for="fee">Payment fee (%)</label><input id="fee" type="number" min="0" max="100" step="0.1" value="3"></div>
+</div></section>
+<section class="card"><h2>3. Your result</h2><div class="results">
+<div class="metric primary"><span>Net profit</span><strong id="profit">$0.00</strong><small id="profitHint">After costs and fees</small></div>
+<div class="metric"><span>Profit margin</span><strong id="margin">0%</strong><small>Profit ÷ selling price</small></div>
+<div class="metric"><span>Total cost</span><strong id="total">$0.00</strong><small>Before payment fee</small></div>
+<div class="metric"><span>Fee amount</span><strong id="feeAmount">$0.00</strong><small>Payment processing</small></div>
+</div><div class="card" style="margin:14px 0 0;background:#102431;border-color:#2379a5"><div class="suggest"><div><div style="font-size:13px;color:var(--muted)">Price for $5 profit</div><div class="muted">Includes your costs and fee</div></div><strong id="suggested">$0.00</strong></div></div><button class="btn" id="reset" type="button">Reset example values</button></section>
+<p class="muted">Calculations update as you type. Adjust shipping and exchange rates to match your actual order. This calculator runs on your device.</p><div class="foot">NEXTA LAB · Upgrade Your Setup. Redefine Your Style.</div>
+</main>
+<script>
+(function(){
+const ids=['cost','china','weight','rate','fx','pack','price','fee'];
+const el=id=>document.getElementById(id);
+const n=id=>Math.max(0,Number(el(id).value)||0);
+const money=v=>'$'+(Number.isFinite(v)?v:0).toFixed(2);
+function calc(){
+ const fx=Math.max(.01,n('fx'));
+ const goods=(n('cost')+n('china'))/fx;
+ const shipping=n('weight')/1000*n('rate');
+ const total=goods+shipping+n('pack');
+ const price=n('price');
+ const feeRate=Math.min(100,n('fee'))/100;
+ const fee=price*feeRate;
+ const profit=price-fee-total;
+ const margin=price>0?profit/price*100:0;
+ const target=(total+5)/(1-feeRate||1);
+ el('profit').textContent=money(profit);
+ el('profit').style.color=profit>=0?'var(--good)':'var(--bad)';
+ el('profitHint').textContent=profit>=0?'After costs and fees':'You are selling at a loss';
+ el('margin').textContent=margin.toFixed(1)+'%';
+ el('margin').style.color=margin>=0?'var(--text)':'var(--bad)';
+ el('total').textContent=money(total);
+ el('feeAmount').textContent=money(fee);
+ el('suggested').textContent=money(target);
+}
+ids.forEach(id=>el(id).addEventListener('input',calc));
+el('reset').addEventListener('click',()=>{const d={cost:30,china:18,weight:300,rate:3.5,fx:7.1,pack:.25,price:9.99,fee:3};ids.forEach(id=>el(id).value=d[id]);calc();});
+calc();
+})();
+</script></body></html>
