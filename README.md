@@ -1,22 +1,47 @@
-# NEXTALAB Website
+# NEXTA LAB Storefront
 
-A responsive, static storefront built with HTML, CSS and vanilla JavaScript.
+A responsive React + Vite storefront for NEXTA LAB.
 
-## Preview locally
-1. Extract the ZIP.
-2. Open `index.html` in a browser.
+## Run locally
 
-For a local development server, use VS Code with the Live Server extension, or run `python -m http.server 8000` from this folder and visit `http://localhost:8000`.
+```bash
+npm install
+npm run dev
+```
 
-## Before publishing
-1. Open `script.js`.
-2. Replace `YOUR_TELEGRAM_USERNAME` with your Telegram username, without the `@`.
-3. Review product names, descriptions, prices, and photos.
-4. Replace any sample photos with your own product photos before taking orders.
-5. Test the site on desktop and mobile.
+## Production build
 
-## Free hosting
-You can publish this folder using GitHub Pages, Netlify, or Cloudflare Pages. No backend is required for this first version.
+```bash
+npm run build
+npm run preview
+```
 
-## Important
-Prices marked “Ask for price” are placeholders. Confirm real prices, availability, delivery, and order terms before launch. Product photos currently use remote sample images.
+## Configuration
+
+Create a `.env` file if you want Telegram links to open your store chat directly:
+
+```env
+VITE_TELEGRAM_USERNAME=your_telegram_username
+```
+
+Do not include the @ symbol. If this is left unset, the site uses Telegram's share flow.
+
+## Features
+
+- Responsive home, shop and about pages
+- Product filtering, search and sorting
+- Product detail dialog and colour preference
+- Shopping bag with quantity controls and local persistence
+- Custom keyboard builder with live estimated pricing
+- Order request that opens Telegram with a prepared message
+- No payment is collected by the site
+
+## Before launch
+
+- Verify all product prices, product specifications and availability.
+- Replace sample/illustrative product photography with your own product photos.
+- Set `VITE_TELEGRAM_USERNAME` to the correct store username.
+- Confirm shipping, preorder timelines, warranty and return terms.
+- Connect a backend if you need order records, inventory or online payments.
+
+Product prices and specifications in this starter are editable examples and must be verified before accepting orders.
